@@ -1,54 +1,38 @@
+mod navbar;
 mod bip;
 
-use bip::Bip;
+use navbar::Navbar;
+use bip::{Bip, BipItem, Resource};
 use yew::prelude::*;
 
-// #[derive(Clone)]
-// struct Bip {
-//     num: i32,
-//     name: String,
-//     url: String,
-//     links: Vec<BipLink>
-// }
-
-// #[derive(Clone)]
-// struct BipLink {
-//     title: String,
-//     link: String
-// }
-#[function_component(App)]
+#[function_component(WTB)]
 fn app() -> Html {
-    // let bip_list = vec![
-    //     Bip {
-    //         num: 32,
-    //         name: "BIP32".to_string(),
-    //         url: "https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki".to_string(),
-    //         links: vec![
-    //             BipLink {
-    //                 title: "Twitter".to_string(),
-    //                 link: "https://twitter.com".to_string()
-    //             },
-    //             BipLink {
-    //                 title: "Google".to_string(),
-    //                 link: "https://google.com".to_string()
-    //             }
-    //         ]
-    //     },
-
-    // ];
-
-    // let bips = bip_list.iter().map(|bip| html!{
-    //     <p>
-    //         {format!("{}: {}", bip.num, bip.name)}
-    //         <a href={bip.url.clone()}>{format!("Link")}</a>
-    //     </p>
-    // }).collect::<Html>();
+    let bip_item = BipItem {
+        name: "BIP39".to_string(),
+        resources: vec![
+            Resource {
+                title: "Twitter thread".to_string(),
+                site: "Twitter".to_string(),
+                link: "https://twitter.com".to_string(),
+            },
+            Resource {
+                title: "Reddit thread".to_string(),
+                site: "Reddit".to_string(),
+                link: "https://google.com".to_string()
+            }
+            ]
+        };
 
     html! {
     <>
-        <h1>{ "What the BIP?" }</h1>
-        <div>
-            <Bip />
+        <Navbar />
+        <div class="container-fluid">
+            <h3 class="pt-4 text-center">{ "A collection of fantastic threads/explainers about ₿itcoin BIPs." }</h3>
+            <p class="text-center p-0">{"A Bitcoin Improvement Proposal (BIP) is a formal proposal to change Bitcoin."}</p>
+            <p class="text-center">{"You can view the full list of BIPs at "}
+                <a target="_blank" href="https://github.com/bitcoin/bips#readme">{"bitcoin/bips"}</a>
+            </p>
+            <Bip bip={bip_item}/>
         </div>
     </>
 }
@@ -56,5 +40,5 @@ fn app() -> Html {
 }
 
 fn main() {
-    yew::start_app::<App>();
+    yew::start_app::<WTB>();
 }
