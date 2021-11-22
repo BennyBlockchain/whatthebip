@@ -1,21 +1,34 @@
 use yew::{Component, Context, html, Html, Properties};
+use crate::resourcelist::ResourceList;
+use std::clone::Clone;
+use std::vec::Vec;
 
-#[derive(PartialEq)]
+#[derive(PartialEq, Debug)]
 pub struct BipItem {
     pub name: String,
     pub resources: Vec<Resource>
 }
 
-#[derive(PartialEq)]
+#[derive(PartialEq, Debug)]
 pub struct Resource {
     pub title: String,
     pub site: String,
     pub link: String   
 }
 
-#[derive(PartialEq, Properties)]
+impl Clone for Resource {
+    fn clone(&self) -> Self {
+        Self {
+            title: self.title.clone(),
+            site: self.site.clone(),
+            link: self.link.clone()
+        }
+    }
+}
+
+#[derive(PartialEq, Properties, Debug)]
 pub struct Props {
-    pub bip: BipItem
+    pub bips: Vec<BipItem>
 }
 
 pub struct Bip;
@@ -31,14 +44,12 @@ impl Component for Bip {
     fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <>
-                <p class="h4">{ctx.props().bip.name.clone()}</p>
-                { ctx.props().bip.resources.iter().map(|bip| html! {
-                    <li class="px-4">
-                        <a class="span" href={bip.link.clone()}>
-                            {format!("{}", bip.title)}
-                        </a>
-                    </li>
-                }).collect::<Html>()}
+            { ctx.props().bips.iter().map(|bip| html! {
+                <>
+                    <p class="h4">{bip.name.clone()}</p>
+                    <ResourceList resources={bip.resources.clone()} />
+                </>
+            }).collect::<Html>()}
             </>
         }
     }
