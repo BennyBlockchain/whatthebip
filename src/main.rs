@@ -1,27 +1,16 @@
 mod navbar;
 mod bip;
+mod bip_list;
+mod resourcelist;
 
 use navbar::Navbar;
-use bip::{Bip, BipItem, Resource};
+use bip::Bip;
 use yew::prelude::*;
+use crate::bip_list::get_bips;
 
 #[function_component(WTB)]
 fn app() -> Html {
-    let bip_item = BipItem {
-        name: "BIP39".to_string(),
-        resources: vec![
-            Resource {
-                title: "Twitter thread".to_string(),
-                site: "Twitter".to_string(),
-                link: "https://twitter.com".to_string(),
-            },
-            Resource {
-                title: "Reddit thread".to_string(),
-                site: "Reddit".to_string(),
-                link: "https://google.com".to_string()
-            }
-            ]
-        };
+    let bips = get_bips();
 
     html! {
     <>
@@ -32,7 +21,7 @@ fn app() -> Html {
             <p class="text-center">{"You can view the full list of BIPs at "}
                 <a target="_blank" href="https://github.com/bitcoin/bips#readme">{"bitcoin/bips"}</a>
             </p>
-            <Bip bip={bip_item}/>
+           <Bip bips={bips}/>
         </div>
     </>
 }
